@@ -38,29 +38,58 @@ def calc_score(field, P, Q, R):
 # ビームサーチ
 def main():
     T = int(input())
-    score = 0
-    field = [0] * 20
+    P = [None] * T
+    Q = [None] * T
+    R = [None] * T
+    for i in range(T):
+        P[i], Q[i], R[i] = map(int, input().split())
+        P[i] -= 1  # 0 始まりに直す
+        Q[i] -= 1
+        R[i] -= 1
+    # 配列 A の初期化
 
-    P, Q, R = map(int, input().split())
-    temp_A, temp_B = calc_score(field, P, Q, R)
+    A = [0] * 20
 
-    P_next, Q_next, R_next = map(int, input().split())
-    next_score = [
-        temp_A + calc_plus_score(field, P_next, Q_next, R_next),
-        temp_A + calc_minus_score(field, P_next, Q_next, R_next),
-        temp_B + calc_plus_score(field, P_next, Q_next, R_next),
-        temp_B + calc_minus_score(field, P_next, Q_next, R_next),
-    ]
-    if next_score.index(max(next_score)) <= 1:
-        print("A")
-    else:
-        print("B")
+    # 貪欲法
+    CurrentScore = 0
+    for i in range(T):
+        # パターン A の場合のスコアを求める
+        ScoreA = CurrentScore
+        PatA = [0] * 20
+        for j in range(20):
+            PatA[j] = A[j]
+        PatA[P[i]] += 1
+        PatA[Q[i]] += 1
+        PatA[R[i]] += 1
+        for j in range(20):
+            if PatA[j] == 0:
+                ScoreA += 1
 
-    # P_pre, Q_pre, R_pre = map(int, input().split())
+        # パターン B の場合のスコアを求める
+        ScoreB = CurrentScore
+        PatB = [0] * 20
+        for j in range(20):
+            PatB[j] = A[j]
+        PatB[P[i]] -= 1
+        PatB[Q[i]] -= 1
+        PatB[R[i]] -= 1
+        for j in range(20):
+            if PatB[j] == 0:
+                ScoreB += 1
 
-    # next_score1 = 0
+        # スコアの大きい方を採用
+        if ScoreA >= ScoreB:
+            print("A")
+            CurrentScore = ScoreA
+            for j in range(20):
+                A[j] = PatA[j]
+        else:
+            print("B")
+            CurrentScore = ScoreB
+            for j in range(20):
+                A[j] = PatB[j]
 
 
 if __name__ == "__main__":
-    debug_input()
+    # debug_input()
     main()
