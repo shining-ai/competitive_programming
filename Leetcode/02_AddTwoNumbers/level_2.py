@@ -5,27 +5,29 @@ class ListNode:
 
 
 def AddTwoNumbers(l1, l2):
-    dummy_head = ListNode(0)
+    ans_head = ListNode(0)
+    ans = ans_head
     carry = 0
-    curr = dummy_head
 
     while l1 or l2 or carry:
-        l1_val = 0
+        v1 = 0
         if l1:
-            l1_val = l1.val
+            v1 = l1.val
             l1 = l1.next
 
-        l2_val = 0
+        v2 = 0
         if l2:
-            l2_val = l2.val
+            v2 = l2.val
             l2 = l2.next
 
-        column_sum = l1_val + l2_val + carry
-        carry, new_val = divmod(column_sum, 10)
-        curr.next = ListNode(new_val)
-        curr = curr.next
+        l_sum = v1 + v2 + carry
+        carry = l_sum // 10
+        new_val = l_sum % 10
 
-    return dummy_head.next
+        ans.next = ListNode(new_val)
+        ans = ans.next
+
+    return ans_head.next
 
 
 if __name__ == "__main__":
@@ -38,3 +40,5 @@ if __name__ == "__main__":
     l2_2 = ListNode(6, l2_1)
     l2_3 = ListNode(5, l2_2)
     l2 = l2_3
+
+    AddTwoNumbers(l1, l2)
