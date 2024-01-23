@@ -13,16 +13,16 @@ class Solution:
             max_robbed_value[1] = nums[0]
 
             for i, i_value in enumerate(nums[1:], start=1):
-                max_robbed_value[i+1] = max(
+                max_robbed_value[i + 1] = max(
                     max_robbed_value[i],
-                    max_robbed_value[i-1] + i_value,
+                    max_robbed_value[i - 1] + i_value,
                 )
 
             return max_robbed_value[-1]
 
         max_value = max(
             rob_max(nums[:-1]),
-            rob_max(nums[1:])
+            rob_max(nums[1:]),
         )
 
         return max_value
