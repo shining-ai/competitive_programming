@@ -2,9 +2,9 @@ import io
 import sys
 
 _INPUT = """\
-7 45
-2
-7 11 16 20 28 34 38
+3 34
+1
+8 13 26
 
 """
 
@@ -31,16 +31,18 @@ def main():
         return cut_count >= K
 
     left = 0
-    right = L
-    while left < right - 1:
+    right = L + 1
+    while left <= right:
         mid = (left + right) // 2
+        if left == mid:
+            break
         if can_cut_yokan(mid):
             left = mid
         else:
-            right = mid
+            right = mid - 1
     print(left)
 
 
 if __name__ == "__main__":
-    # debug_input()
+    debug_input()
     main()
